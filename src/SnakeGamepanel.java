@@ -26,32 +26,42 @@ public class SnakeGamepanel extends JPanel implements ActionListener, KeyListene
 	Tile snakeFood;
 	Random random;
 	
-	//	game logic
-	
-	Timer gameloop;
-	int velocityX, velocityY;
-	boolean GameOver=false;
-	
-	SnakeGamepanel(int boardwidth, int boardheight){
-		this.boardwidth= boardwidth;
-		this.boardheight= boardheight;
-		setPreferredSize(new Dimension(this.boardwidth, this.boardheight));
-		setBackground(Color.black);
-		addKeyListener(this);
-		setFocusable(true);
-		
-		snakeHead=new Tile(5,5);
-		snakebody= new ArrayList<Tile>();
-		
-		snakeFood= new Tile(10,10);
-		random = new Random();
-		placeFood();
-		
-		velocityX=0;
-		velocityY= 0;
-		gameloop =new Timer(100,this);
-		gameloop.start();
-	}
+	  // Game logic
+    Timer gameLoop;
+    int velocityX, velocityY;
+    boolean gameOver = false;
+    boolean isPaused = false;
+    
+    // UI Components
+    JButton pauseButton;
+    JLabel scoreLabel;
+    
+    public SnakeGamepanel(int width, int height) {
+        this.boardWidth = width;
+        this.boardHeight = height;
+        setPreferredSize(new Dimension(boardWidth, boardHeight));
+        setBackground(Color.BLACK);
+        setLayout(new BorderLayout());
+        
+        // Initialize game elements
+        snakeHead = new Tile(5, 5);
+        snakeBody = new ArrayList<>();
+        food = new Tile(10, 10);
+        random = new Random();
+        placeFood();
+        
+        velocityX = 0;
+        velocityY = 0;
+        gameLoop = new Timer(100, this);
+        
+        // Create title panel
+        createTitlePanel();
+        
+        // Start the game
+        gameLoop.start();
+        setFocusable(true);
+        addKeyListener(this);
+    }
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
